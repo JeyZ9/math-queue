@@ -30,6 +30,20 @@ document.getElementById("dequeueBtn").addEventListener("click", () => {
     if (queue.length > 0) {
         const nextCustomer = queue.shift();
         customerImages.shift();
+
+        // ใช้ Web Speech API อ่านชื่อ
+        if ("speechSynthesis" in window) {
+            const synth = window.speechSynthesis;
+            const utterance = new SpeechSynthesisUtterance();
+            utterance.text = `ขอเชิญคุณ ${nextCustomer}`;
+            utterance.lang = "th-TH";
+            utterance.rate = 1;
+            utterance.pitch = 1;
+            synth.speak(utterance);
+        } else {
+            console.error("Web Speech API is not supported in this browser.");
+        }
+
         alert(`Next Customer: ${nextCustomer}`);
         updateQueueDisplay();
     } else {
